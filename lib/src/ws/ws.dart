@@ -116,7 +116,7 @@ class BililiveSocket {
           // The packet content should be {"code":0}, but we simply ignore it here
           break;
         case OP_HEARTBEAT_REPLY:
-          _logger.d('Received heartbeat reply from server');
+          // _logger.d('Received heartbeat reply from server');
           // Similar to above
           break;
         default:
@@ -128,7 +128,7 @@ class BililiveSocket {
   }
 
   _sendHeartbeat() {
-    _logger.d('Send heartbeat');
+    // _logger.d('Send heartbeat');
     // Send a heartbeat packet with no content
     var header = PacketHeader(
       packetLen: PacketHeader.size,
