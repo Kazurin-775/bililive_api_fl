@@ -6,6 +6,7 @@ import 'package:tuple/tuple.dart';
 import '../danmaku.dart';
 import '../message.dart';
 import 'cred.dart';
+import 'rest.dart';
 
 const String apiServer = 'api.live.bilibili.com';
 
@@ -32,9 +33,7 @@ Future<WsServerConfig> getWsServerConfig(Dio dio, int roomId) async {
     {'id': roomId.toString()},
   ));
 
-  if (resp.data['code'] != 0) {
-    throw Exception('API endpoint returned status code ${resp.data.code}');
-  }
+  ensureApiCallSuccess(resp.data);
 
   return WsServerConfig(
     (resp.data['data']['host_list'] as List)
@@ -54,9 +53,7 @@ Future<Tuple2<List<Message>, List<Message>>> getLast10Messages(
     {'roomid': roomId.toString()},
   ));
 
-  if (resp.data['code'] != 0) {
-    throw Exception('API endpoint returned status code ${resp.data.code}');
-  }
+  ensureApiCallSuccess(resp.data);
 
   return Tuple2(
     (resp.data['data']['admin'] as List)
@@ -100,7 +97,5 @@ Future<void> sendTextMessage(
   );
 
   // print(resp.data);
-  if (resp.data['code'] != 0) {
-    throw Exception('API status ${resp.data['code']}: ${resp.data['message']}');
-  }
+  ensureApiCallSuccess(resp.data);
 }

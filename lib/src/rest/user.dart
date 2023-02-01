@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import 'rest.dart';
+
 const String apiServer = 'api.bilibili.com';
 
 class UserInfo {
@@ -31,9 +33,7 @@ Future<UserInfo> getUserInfo(Dio dio, int uid, {Options? options}) async {
 
   var resp = await dio.getUri(uri, options: options);
 
-  if (resp.data['code'] != 0) {
-    throw Exception('API endpoint returned status code ${resp.data.code}');
-  }
+  ensureApiCallSuccess(resp.data);
 
   return UserInfo.fromJson(resp.data['data']);
 }

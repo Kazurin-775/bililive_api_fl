@@ -1,7 +1,7 @@
 export 'danmaku.dart';
 export 'message.dart' show Message, Medal;
 export 'rest/cred.dart' show BiliCredential;
-export 'rest/rest.dart' show installClientConfig;
+export 'rest/rest.dart' show installClientConfig, BiliApiException;
 export 'rest/room.dart'
     show
         WsServerConfig,

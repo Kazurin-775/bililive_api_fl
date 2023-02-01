@@ -14,3 +14,19 @@ void installClientConfig(Dio dio) {
     'referer': spoofReferer,
   });
 }
+
+class BiliApiException implements Exception {
+  final int code;
+  final String message;
+
+  BiliApiException(this.code, this.message);
+
+  @override
+  String toString() => 'API status code $code: $message';
+}
+
+void ensureApiCallSuccess(dynamic data) {
+  if (data['code'] != 0) {
+    throw BiliApiException(data['code'], data['message']);
+  }
+}

@@ -1,6 +1,8 @@
 import 'package:bililive_api_fl/src/lib.dart';
 import 'package:dio/dio.dart';
 
+import 'rest.dart';
+
 const apiServer = 'api.live.bilibili.com';
 
 class StickerItem {
@@ -85,9 +87,7 @@ Future<List<StickerPack>> getStickerPacksInRoom(
     }),
   );
 
-  if (resp.data['code'] != 0) {
-    throw Exception('API status ${resp.data['code']}: ${resp.data['message']}');
-  }
+  ensureApiCallSuccess(resp.data);
 
   var rawPacks = resp.data['data']['data'] as List;
   return rawPacks
