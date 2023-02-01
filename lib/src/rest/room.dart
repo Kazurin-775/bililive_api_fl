@@ -88,6 +88,39 @@ Future<void> sendTextMessage(
     'csrf_token': cred.biliJct,
   });
 
+  await _sendRawMessage(dio, formData, cred);
+}
+
+/// Send a sticker message to a live room.
+///
+/// Note: you may need to have sufficient privilege to send some stickers in
+/// some rooms, or the operation may result in a `BiliApiException` with status
+/// code `10203`.
+Future<void> sendStickerMessage(
+  Dio dio,
+  int roomId,
+  String stickerId,
+  BiliCredential cred, {
+  DanmakuOptions options = const DanmakuOptions(),
+}) async {
+  var formData = FormData.fromMap({
+    'roomid': roomId,
+    'dm_type': 1, // Stickers
+    'msg': stickerId,
+    'bubble': 0,
+    'mode': options.position.asInt(),
+    'color': options.color,
+    'fontsize': options.fontSize.asInt(),
+    'rnd': _random.nextInt(1e9.floor() - 1),
+    'csrf': cred.biliJct,
+    'csrf_token': cred.biliJct,
+  });
+
+  await _sendRawMessage(dio, formData, cred);
+}
+
+Future<void> _sendRawMessage(
+    Dio dio, FormData formData, BiliCredential cred) async {
   var resp = await dio.postUri(
     Uri.https(apiServer, '/msg/send'),
     data: formData,

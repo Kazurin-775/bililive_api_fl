@@ -8,7 +8,8 @@ export 'rest/room.dart'
         WsHost,
         getWsServerConfig,
         getLast10Messages,
-        sendTextMessage;
+        sendTextMessage,
+        sendStickerMessage;
 export 'rest/stickers.dart'
     show StickerItem, StickerPack, getStickerPacksInRoom;
 export 'rest/user.dart' show UserInfo, getUserInfo;
