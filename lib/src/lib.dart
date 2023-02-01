@@ -9,5 +9,7 @@ export 'rest/room.dart'
         getWsServerConfig,
         getLast10Messages,
         sendTextMessage;
+export 'rest/stickers.dart'
+    show StickerItem, StickerPack, getStickerPacksInRoom;
 export 'rest/user.dart' show UserInfo, getUserInfo;
 export 'ws/ws.dart' show BililiveSocket;
