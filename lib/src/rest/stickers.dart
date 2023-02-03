@@ -1,6 +1,6 @@
-import 'package:bililive_api_fl/src/lib.dart';
 import 'package:dio/dio.dart';
 
+import 'cred.dart';
 import 'rest.dart';
 
 const apiServer = 'api.live.bilibili.com';
