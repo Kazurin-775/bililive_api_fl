@@ -45,6 +45,13 @@ class Message {
       kanchouLv: obj[7],
     );
   }
+
+  /// (Experimental) Generate a unique identifier for this message. Useful for
+  /// deduplication.
+  ///
+  /// Warning: these IDs are prone to change between releases! Don't store them
+  /// in persistent storages.
+  String getUniqueId() => '$uid:${timestamp.millisecondsSinceEpoch ~/ 1000}';
 }
 
 /// Represents a "fan medal" in bililive.
