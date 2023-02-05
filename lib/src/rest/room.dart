@@ -76,7 +76,7 @@ Future<void> sendTextMessage(
   BiliCredential cred, {
   DanmakuOptions options = const DanmakuOptions(),
 }) async {
-  var formData = FormData.fromMap({
+  var formData = {
     'roomid': roomId,
     'msg': content,
     'bubble': 0,
@@ -86,7 +86,7 @@ Future<void> sendTextMessage(
     'rnd': _random.nextInt(1e9.floor() - 1),
     'csrf': cred.biliJct,
     'csrf_token': cred.biliJct,
-  });
+  };
 
   await _sendRawMessage(dio, formData, cred);
 }
@@ -103,7 +103,7 @@ Future<void> sendStickerMessage(
   BiliCredential cred, {
   DanmakuOptions options = const DanmakuOptions(),
 }) async {
-  var formData = FormData.fromMap({
+  var formData = {
     'roomid': roomId,
     'dm_type': 1, // Stickers
     'msg': stickerId,
@@ -114,19 +114,20 @@ Future<void> sendStickerMessage(
     'rnd': _random.nextInt(1e9.floor() - 1),
     'csrf': cred.biliJct,
     'csrf_token': cred.biliJct,
-  });
+  };
 
   await _sendRawMessage(dio, formData, cred);
 }
 
 Future<void> _sendRawMessage(
-    Dio dio, FormData formData, BiliCredential cred) async {
+    Dio dio, Map<String, dynamic> formData, BiliCredential cred) async {
   var resp = await dio.postUri(
     Uri.https(apiServer, '/msg/send'),
     data: formData,
-    options: Options(headers: {
-      'cookie': cred.toCookies(),
-    }),
+    options: Options(
+      contentType: Headers.formUrlEncodedContentType,
+      headers: {'cookie': cred.toCookies()},
+    ),
   );
 
   // print(resp.data);

@@ -118,13 +118,14 @@ Future<int> receiveBatteryReward(Dio dio, BiliCredential cred) async {
       apiServer,
       '/xlive/app-ucenter/v1/userTask/UserTaskReceiveRewards',
     ),
-    data: FormData.fromMap({
+    data: {
       'csrf': cred.biliJct,
       'csrf_token': cred.biliJct,
-    }),
-    options: Options(headers: {
-      'cookie': cred.toCookies(),
-    }),
+    },
+    options: Options(
+      contentType: Headers.formUrlEncodedContentType,
+      headers: {'cookie': cred.toCookies()},
+    ),
   );
 
   ensureApiCallSuccess(resp.data);
