@@ -133,3 +133,67 @@ Future<void> _sendRawMessage(
   // print(resp.data);
   ensureApiCallSuccess(resp.data);
 }
+
+class VideoPlayInfo {
+  final int avid;
+  final String bvid;
+  final int cid;
+  final String title;
+  final int partId;
+
+  final int currentTime;
+  final int positionInSequence;
+
+  final String url;
+  final String playInfoUrl;
+
+  VideoPlayInfo({
+    required this.avid,
+    required this.bvid,
+    required this.cid,
+    required this.title,
+    required this.partId,
+    required this.currentTime,
+    required this.positionInSequence,
+    required this.url,
+    required this.playInfoUrl,
+  });
+
+  static VideoPlayInfo fromJson(dynamic obj) {
+    return VideoPlayInfo(
+      avid: obj['aid'],
+      bvid: obj['bvid'],
+      cid: obj['cid'],
+      title: obj['title'],
+      partId: obj['pid'],
+      currentTime: obj['play_time'],
+      positionInSequence: obj['sequence'],
+      url: obj['bvid_url'],
+      playInfoUrl: obj['play_url'],
+    );
+  }
+
+  String getCurrentTimeAsString() {
+    if (currentTime < 3600) {
+      // m:ss
+      return '${currentTime ~/ 60}:${(currentTime % 60).toString().padLeft(2, '0')}';
+    } else {
+      // h:mm:ss
+      return '${currentTime ~/ 3600}:${(currentTime ~/ 60 % 60).toString().padLeft(2, '0')}:'
+          '${(currentTime % 60).toString().padLeft(2, '0')}';
+    }
+  }
+}
+
+Future<VideoPlayInfo?> getCurrentVideo(Dio dio, int roomId) async {
+  var resp = await dio.getUri(Uri.https(
+    apiServer,
+    '/live/getRoundPlayVideo',
+    {'room_id': roomId.toString()},
+  ));
+
+  ensureApiCallSuccess(resp.data);
+
+  if ((resp.data['data']['cid'] as int) < 0) return null;
+  return VideoPlayInfo.fromJson(resp.data['data']);
+}

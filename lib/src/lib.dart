@@ -15,10 +15,12 @@ export 'rest/room.dart'
     show
         WsServerConfig,
         WsHost,
+        VideoPlayInfo,
         getWsServerConfig,
         getLast10Messages,
         sendTextMessage,
-        sendStickerMessage;
+        sendStickerMessage,
+        getCurrentVideo;
 export 'rest/stickers.dart'
     show StickerItem, StickerPack, getStickerPacksInRoom;
 export 'rest/user.dart' show UserInfo, getUserInfo;
